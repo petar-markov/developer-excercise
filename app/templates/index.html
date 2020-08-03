@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Grocery Shop</title>
+{% endblock %}
+
+{% block body %}
+<div class="container" id="parent">
+    <div class="container" id="first">
+
+        <form action="/submit" method="POST">
+            <div class="form-group">
+                <h3>Product</h3>
+                <input 
+                    type="text"
+                    name="product">
+            </div>
+            <div class="form-group">
+                <h3>Price</h3>
+                <input 
+                    type="text"
+                    name="price">
+            </div>
+            <input type="submit" value="Submit" class="btn">
+            <br>
+            <div>
+                <table>
+                    <tr>
+                        <th><div>Product</div></th>
+                        <th><div>Price</div></th>
+                        <th><div>Actions</div></th>
+                    </tr>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{product.name}}</td>
+                        <td>{{product.price}}</td>
+                        <td><a href="/delete_product/{{product.id}}">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </form>
+    </div>
+    <div class="container" id="second">
+        <form action="/submit" method="POST">
+        <div class="form-group">
+            <h3>Deal Type</h3>
+            <select name="deal_type">
+                <option value="2_for_3">2 for 3</option>
+                <option value="buy_1_get_1_half_price">buy 1 get 1 half price</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <h3>Product/Products</h3>
+            <input 
+                type="text"
+                name="products_for_deal">
+        </div>
+        <input type="submit" name="submit_for_deal" value="Submit" class="btn">
+        <br>
+        <div>
+            <table>
+                <tr>
+                    <th><div>Deal</div></th>
+                    <th><div>Product/Products</div></th>
+                    <th><div>Actions</div></th>
+                </tr>
+                {% for data in deals_data %}
+                <tr>
+                    <td>{{data.deal_type}}</td>
+                    <td>{{data.deal_items}}</td>
+                    <td><a href="/delete_deal/{{data.id}}">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        </form>
+    </div>
+    <div class="container" id="third">
+        <form action="/scan" method="POST">
+            <div class="form-group">
+                <h3>Products for scan</h3>
+                <input type="text" name="products_for_scan">
+            </div>
+            <br><br><br>
+            <input type="submit" name="submit_result" value="Scan Products" class="btn">
+            <br>
+            <h3>Result:</h3>
+            <h3>{{ result_message }}</h3>
+            <!-- {% with passed = get_flashed_messages() %}
+            {% if passed %}
+            <h3>{{passed}}</h3>
+            {% endif %}
+            {% endwith %} -->
+        </form>
+    </div>
+</div>
+{% endblock %}
